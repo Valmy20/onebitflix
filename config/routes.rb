@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      get 'indications/index'
+    end
+  end
   devise_for :users
   root :to => "home#index"
 
@@ -16,7 +21,7 @@ Rails.application.routes.draw do
           put '/executions', to: 'executions#update'
         end
       end
-      resources :recommendations, only: :index
+      resources :indications, only: :index
     end
   end
 end

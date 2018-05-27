@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  indicatable: one
+  indicatable_type: Indicatable
+
+two:
+  user: two
+  indicatable: two
+  indicatable_type: Indicatable
