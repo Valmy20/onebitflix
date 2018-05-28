@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :users
+  root :to => "home#index"
+  match "*path", to: "home#index", via: :get
+
   namespace :api do
     namespace :v1 do
       get 'indications/index'
     end
   end
-  devise_for :users
-  root :to => "home#index"
 
   namespace :api do
     namespace :v1 do
