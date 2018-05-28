@@ -8,18 +8,22 @@
         <a v-for="movie in movies"
           :key="movie.id"
           href="#"
+          @click="openDetails($event, movie.id)"
           ><img :src="movie.thumb_url">
         </a>
       </slick>
     </v-flex>
   </v-layout>
+    <MovieMenu v-if="menuOpen" :id="movieId" :type="movieType" :closeDetails="closeDetails"/>
   </div>
 </template>
 
 <script>
   import Slick from 'vue-slick';
+  import MovieMenu from './_movie_menu.vue';
    
   export default {
+
     props: {
       name: {
         type: String,
@@ -30,8 +34,13 @@
         required: true,
       }
     },
+
+
     data () {
       return {
+          menuOpen: false,
+          movieId: null,
+          movieType: 'serie',
           slickOptions: {
               slidesToShow: 4,
               arrows: false,
@@ -54,9 +63,30 @@
           }
       }
     },
+
+
     components: {
-      Slick
+      Slick,
+      MovieMenu
+    },
+
+
+    methods: {
+      openDetails(e, id) {
+        e.preventDefault();
+        if(this.menuOpen == true && this.movieId == id){
+          this.closeDetails();
+        }else{
+          this.movieId = parseInt(id);
+          this.menuOpen = true;
+        }
+      }, 
+      closeDetails(){
+        this.menuOpen = false;
+      }
     }
+
+
   }
 </script>
 
