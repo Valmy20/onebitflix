@@ -62,6 +62,9 @@
         components: {
             'Featured': Featured,
             'MovieList': MovieList
+        },
+        mounted(){
+          this.$store.dispatch('Watchable/getFeatured');
         }
     }
 </script>
