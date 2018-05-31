@@ -3,6 +3,16 @@ class Api::V1::SerieSerializer
   attributes :id, :title, :description
   has_many :episodes, record_type: :movies, serializer: :movie
 
+  attribute :episodes do |object|
+    object.episodes.map |e|
+      {
+        title: e.title,
+        id: e.id,
+        thumbnail_url: "/thumbnails/#{object.thumbnail_key}"
+      }
+    end
+  end
+
   attribute :category do |object|
     object.category.name
   end

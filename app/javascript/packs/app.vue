@@ -2,12 +2,11 @@
   <v-app>
     <Header/>
     <v-content>
-      <router-view></router-view>>
+      <router-view :key="$route.fullPath"></router-view>
     </v-content>
     <Footer/>
   </v-app>
 </template>
-
 
 <script>
   import Footer from './components/shared/footer.vue';
@@ -16,7 +15,7 @@
   export default {
     data () {
       return {
-
+      
       }
     },
     components: {

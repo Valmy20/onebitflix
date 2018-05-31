@@ -12,7 +12,7 @@
       </v-flex>
       <Details v-if="contentActive == 'details'" :watchable="watchable" />
       <!-- <Episodes v-if="contentActive == 'episodes'"/> -->
-      <Reviews v-if="contentActive == 'reviews'" :watchable="watchable" />
+      <Reviews v-if="contentActive == 'reviews'" :reviews="reviews" :id="watchable.attributes.id" :type="watchable.type"/>
     </v-layout>
     <v-layout row wrap class="navigation">
       <v-flex md6>
@@ -37,62 +37,63 @@
 <script>
   import Details from './_details.vue';
   import Reviews from './_reviews.vue';
-  // ------- Dados Fake apenas para testarmos o layout -------- //
-  const watchable = {
-    id: 1,
-    type: 'serie',
-    attributes: {
-      title: 'Ruby On Rails Api Completa',
-      reviews_count: 3,
-      description: 'Saber como criar e consumir API’s é fundamental para qualquer programador, então nessa pequena série nós vamos ver o que é essencial para criar uma usando RoR.',
-      category: 'Ruby On Rails',
-      thumbnail_cover_url: 'https://onebitcode.com/wp-content/uploads/2018/05/rails-admin-serie-cover.png'
-    }
-  }
+  import { mapActions } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
-
-        props: {
-          id: {
-            type: Number,
-            required: true,
-          },
-          type: {
-            type: String,
-            required: true,
-          },
-          closeDetails:  {
-            type: Function,
-            required: true,
-          }
-        },
-
-
-        data () {
-          return { 
-            contentActive: 'details',
-            watchable: watchable
-          }
-        },
-
-
-        methods: {
-          changeContent (content){
-            this.contentActive = content;
-
-            console.log(content)
-          },
-          close () {
-           this.closeDetails();
-          }
-        },
-
-
-        components: {
-          Details: Details,
-          Reviews: Reviews
-        }
-
+    props: {
+      id: {
+        type: Number,
+        required: true,
+      },
+      type: {
+        type: String,
+        required: true,
+      },
+      closeDetails:  {
+        type: Function,
+        required: true,
+      }
+    },
+    data () {
+      return { 
+        contentActive: 'details',
+      }
+    },
+    methods: {
+      changeContent (content){
+        this.contentActive = content;
+      },
+      close () {
+       this.closeDetails();
+      },
+      ...mapActions({
+        getWatchable: 'Watchable/getWatchable',
+        getReviews: 'Review/index'
+      })
+    },
+    components: {
+      Details: Details,
+      Reviews: Reviews
+    },
+    watch: { 
+      id: function() {
+        this.getWatchable({id: this.id, type: this.type})
+        this.getReviews({id: this.id, type: this.type})
+      },
+      serie: function() {
+        this.getWatchable({id: this.id, type: this.type})
+        this.getReviews({id: this.id, type: this.type})
+      }
+    },
+    mounted() {
+      this.getWatchable({id: this.id, type: this.type})
+      this.getReviews({id: this.id, type: this.type})
+    },
+    computed: mapState({
+      watchable: state => state.Watchable.watchable,
+      reviews: state => state.Review.reviews,
+    })
   }
 </script>
 

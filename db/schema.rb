@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_27_023335) do
+ActiveRecord::Schema.define(version: 2018_05_30_203254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -72,7 +72,6 @@ ActiveRecord::Schema.define(version: 2018_05_27_023335) do
   create_table "players", force: :cascade do |t|
     t.datetime "start_date"
     t.datetime "end_date"
-    t.time "elapsed_time"
     t.bigint "movie_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false

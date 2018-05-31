@@ -12,18 +12,33 @@
             <v-icon left>label</v-icon>{{watchable.attributes.category}}
           </v-chip>
         </v-flex>
-        <v-flex md6 pt-2 pl-2 class="favorites">
+        <v-flex md6 pt-2 pl-2>
           <v-icon v-for="r in watchable.attributes.reviews_count" :key='r' color="red">favorite</v-icon>
           <v-icon v-for="r in (5 - watchable.attributes.reviews_count)" :key='watchable.attributes.reviews_count + r' color="white">favorite</v-icon>
         </v-flex>
       </v-layout>
       <v-layout row wrap mt-4>
-        <v-flex sm3 md3 class="margin">
+        <v-flex sm3 md3>
+          <v-btn color="red"
+                 text-color="white"
+                 large
+                 :to="'/watch/'+ watchable.id"
+                 class="white--text"
+                 v-if="watchable.type == 'movie'">Assistir
+          </v-btn>
+          <v-btn color="red"
+                 text-color="white"
+                 large
+                 :to="'/watch/'+ watchable.attributes.last_watched_episode"
+                 class="white--text"
+                 v-else-if="watchable.attributes.last_watched_episode">Assistir
+          </v-btn>
           <v-btn color="red"
                  text-color="white"
                  large
                  class="white--text"
-                 :to="'/watch/'+ watchable.id" >Assistir
+                 :to="'/watch/'+ watchable.relationships.episodes.data[0].id"
+                 v-else>Assistir
           </v-btn>
         </v-flex>
         <v-flex sm3 md4>
@@ -38,7 +53,7 @@
     </v-flex>
     <v-flex md5 offset-md1 hidden-sm-and-down>
       <v-layout row wrap mt-12 center xs-10>
-        <img :src="watchable.attributes.thumbnail_cover_url" class="responsive-img"/>
+        <img :src="watchable.attributes.thumbnail_cover_url" class="responsive-img img-fix"/>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -62,12 +77,6 @@
   .subtitle{
     font-size: 22px;
   }
-  .favorites{
-    margin-left: 20px;
-  }
-  .margin{
-    margin-right: 20px;
-  }
   .text{
     font-size: 16px;
   }
@@ -83,5 +92,9 @@
   }
   .chip{
     margin-left: 0px;
+  }
+  .img-fix{
+    width: 90%;
+    height: 90%;
   }
 </style>
